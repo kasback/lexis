@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="lexises_custom_report_invoice" inherit_id="account.report_invoice_document">
+            <xpath expr="//t[2]" position="replace">
+                <div class="row">
+
+                    <div class="col-8">
+                        <table>
+                            <tr>
+                                <td>
+                                    Num. de Décompte Provisoire:
+                                </td>
+                                <td>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.num_decompte" name="num_decompte">
+                                        <span class="m-0" t-field="o.num_decompte"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Réference Client :
+                                </td>
+                                <td>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.ref_client" name="ref_client">
+                                        <span class="m-0" t-field="o.ref_client"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+                    <div class="col-4">
+                        <address t-field="o.partner_id"
+                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                        <div t-if="o.partner_id.vat" class="mt16">
+                            <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label"
+                               id="inv_tax_id_label"/>
+                            <t t-else="">Tax ID</t>:
+                            <span t-field="o.partner_id.vat"/>
+                        </div>
+                        <t t-if="o.partner_id.ice">
+                            ICE :
+                            <t t-esc="o.partner_id.ice"/>
+                        </t>
+                    </div>
+                </div>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>

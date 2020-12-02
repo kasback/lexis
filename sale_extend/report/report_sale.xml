@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="lexises_custom_report_sale" inherit_id="sale.report_saleorder_document">
+
+            <xpath expr="//t/t/t[3]/t" position="replace">
+                <div class="row" style="margin-top:50px;margin-bottom:50px;">
+                    <div class="col-4">
+                        <div t-if="doc.partner_shipping_id == doc.partner_invoice_id" style="font-weight:bold;">Invoicing and Shipping
+                            Address:
+                        </div>
+                        <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
+                            <div style="font-weight:bold;">Addresse de Livraison:</div>
+                            <div t-field="doc.partner_shipping_id"
+                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+                        </t>
+                    </div>
+                    <div class="col-4">
+
+                        <div t-if="doc.partner_shipping_id != doc.partner_invoice_id" style="font-weight:bold;">Addresse de Facturation:
+                        </div>
+                        <div t-field="doc.partner_invoice_id"
+                             t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+
+                    </div>
+                    <div class="col-4">
+                        <div t-if="doc.objet" style="font-weight:bold;" >Objet: </div>
+                        <div t-if="doc.objet" t-field="doc.objet"/>
+                    </div>
+                </div>
+            </xpath>
+
+
+            <xpath expr="//t[@t-set='address']" position="replace">
+                <div class="row">
+                    <div class="col-6" style="float:left;">
+                        <t t-set="address">
+                            <div t-field="doc.partner_id"
+                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                            <p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'Tax ID'"/>:
+                                <span t-field="doc.partner_id.vat"/>
+                            </p>
+                        </t>
+                    </div>
+
+                </div>
+            </xpath>
+            <xpath expr="//div[@class='page']/div[1]" position="after">
+                <div style="text-align:center">
+                    <p>A rappeler lors de toute commande, modification de dossier, ou demande de prix.</p>
+                </div>
+
+                <div style="text-align:left;">
+                    <t t-if="doc.texte_en_tete">
+                        <div t-field="doc.texte_en_tete"/>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>
