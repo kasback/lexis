@@ -3,10 +3,20 @@
     <data>
         <template id="lexises_custom_report_invoice" inherit_id="account.report_invoice_document">
             <xpath expr="//t[2]" position="replace">
-                <div class="row">
+                <div class="row" style="margin-bottom:20px;">
 
                     <div class="col-8">
-                        <table>
+                        <table style="border: 2px solid black;width:100%;">
+                            <tr>
+                                <td>
+                                    Date de la facture:
+                                </td>
+                                <td>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                                        <span class="m-0" t-field="o.invoice_date"/>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                     Num. de Décompte Provisoire:
@@ -17,6 +27,19 @@
                                     </div>
                                 </td>
                             </tr>
+                            <t t-if="o.invoice_origin">
+                                <tr>
+
+                                    <td>
+                                        Code Commande:
+                                    </td>
+                                    <td>
+                                        <div class="col-auto mw-100 mb-2" name="invoice_origin">
+                                            <span class="m-0" t-field="o.invoice_origin"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
                             <tr>
                                 <td>
                                     Réference Client :
@@ -31,7 +54,7 @@
 
 
                     </div>
-                    <div class="col-4">
+                    <div class="col-4" style="border: 2px solid black;">
                         <address t-field="o.partner_id"
                                  t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                         <div t-if="o.partner_id.vat" class="mt16">
@@ -45,6 +68,13 @@
                             <t t-esc="o.partner_id.ice"/>
                         </t>
                     </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[1]/div[1]" position="replace">
+                <div class="col-auto mw-100 mb-2" t-if="o.invoice_user_id" name="invoice_user_id">
+                    <strong>Chargé d'affaire:</strong>
+                    <p class="m-0" t-field="o.invoice_user_id"/>
                 </div>
             </xpath>
 

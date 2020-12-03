@@ -11,7 +11,6 @@
         'base', 'web', 'sale'
     ],
     'data': [
-        'report/report_templates.xml',
         'report/report_sale.xml',
         'report/report.xml',
         'views/sale_order_views.xml',
