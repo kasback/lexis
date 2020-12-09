@@ -10,7 +10,17 @@
                 <field name="partner_id" position="after">
                     <field name="num_decompte" />
                     <field name="ref_client" />
+                    <field name="condition_paiement" />
                 </field>
+                <xpath expr="//notebook/page[1]/field[1]/tree" position="inside">
+                    <field name="marche_item"
+                           attrs="{'column_invisible': [('parent.invoice_origin', '=', False)]}"
+                           />
+                </xpath>
+
+                <xpath expr = "//field[@name='line_ids']/tree/field[@name='account_id']" position="before" >
+                    <field name = "marche_item"/>
+                </xpath>
             </field>
         </record>
     </data>
