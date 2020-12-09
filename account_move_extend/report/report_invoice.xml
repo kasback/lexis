@@ -143,7 +143,6 @@
                         <span t-field="line.marche_item" t-options="{'widget': 'text'}"/>
                     </td>
                 </t>
-
             </xpath>
 
 
