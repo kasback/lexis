@@ -57,7 +57,6 @@ class PaiementpecClient(models.Model):
     state = fields.Selection([('draft', u'Brouillon'),
                               ('caisse', u'Caisse'),
                               ('caisse_centrale', u'Caisse centrale'),
-                              ('received', u'Bordereau'),
                               ('at_bank', u'Encaissement'),
                               ('payed', u'Encaissé'),
                               ('cancel', u'Annulé'),
@@ -112,11 +111,6 @@ class PaiementpecClient(models.Model):
                     analytic = pec.analytic_account_id.id
                 deb_account = pec.model_id.received_account.id
                 cred_account = account_id
-            if pec.state == 'received':
-                if pec.bordereau_id:
-                    date = pec.bordereau_id.date
-                deb_account = pec.model_id.at_bank_account.id
-                cred_account = pec.model_id.received_account.id
             if pec.state == 'at_bank':
                 date = pec.payed_date
                 journal_id = pec.bordereau_id.journal_id
@@ -154,9 +148,7 @@ class PaiementpecClient(models.Model):
 
             lines = [(0, 0, debit_val), (0, 0, credit_val)]
             pec_name = pec.name
-            if pec.state == 'received':
-                pec_name = pec.name + '[BORD]'
-            elif pec.state == 'at_bank':
+            if pec.state == 'at_bank':
                 pec_name = pec.name + '[ENC]'
             elif pec.state == 'rejected':
                 pec_name = pec.name + '[REP]'
@@ -185,12 +177,6 @@ class PaiementpecClient(models.Model):
             if not caisse_id:
                 raise UserError(u"Vous devez créer une caisse centrale")
             pec.write({'caisse_id': caisse_id.id, 'state': 'caisse_centrale'})
-        return True
-
-    def action_received(self):
-        self.write({'state': 'received'})
-        if not self.bordereau_id:
-            raise ValidationError(u'Veuillez renseigner le bordereau de chèque')
         return True
 
     def action_at_bank(self):

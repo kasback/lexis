@@ -52,11 +52,9 @@
                 <form string="PEC">
                     <header>
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,caisse,caisse_centrale,received,at_bank,payed"/>
+                               statusbar_visible="draft,caisse,caisse_centrale,at_bank,payed"/>
                         <button name="action_caisse" string="Caisse" states="draft" type="object" class="oe_highlight"/>
                         <button name="action_caisse_centrale" string="Caisse centrale" states="caisse" type="object"
-                                class="oe_highlight"/>
-                        <button name="action_received" states="caisse_centrale" string="Bordereau" type="object"
                                 class="oe_highlight"/>
                         <button name="action_payed" states="at_bank" string="Payer" type="object" class="oe_highlight"/>
                         <button name="action_cancel" string="Annuler" states="draft" type="object"/>
