@@ -8,11 +8,11 @@
 
             <xpath expr="//t[@t-set='address']" position="replace">
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-6" style="padding:3px;">
                         <table style="border: 2px solid black;width:100%;">
                             <colgroup>
                                 <col width='30%'/>
-                                <col width='80%'/>
+                                <col width='70%'/>
                             </colgroup>
                             <tr>
                                 <td>
@@ -23,15 +23,17 @@
                                     <span t-if="doc.name" t-field="doc.name"/>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div t-if="doc.objet" style="font-weight:bold;">Objet</div>
-                                </td>
-                                <td>
-                                    :
-                                    <span t-if="doc.objet" t-field="doc.objet"/>
-                                </td>
-                            </tr>
+                            <t t-if="doc.objet">
+                                <tr>
+                                    <td>
+                                        <div t-if="doc.objet" style="font-weight:bold;">Objet</div>
+                                    </td>
+                                    <td>
+                                        :
+                                        <span t-if="doc.objet" t-field="doc.objet"/>
+                                    </td>
+                                </tr>
+                            </t>
                             <tr>
                                 <td>
                                     <div t-if="doc.user_id" style="font-weight:bold;">Emetteur</div>
@@ -43,16 +45,32 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="col-4" style="border: 2px solid black;width:100%;">
-                        <p>Casablanca le :
-                            <span t-if="doc.date_order" t-field="doc.date_order"/>
+                    <div class="col-6" style="border: 2px solid black;width:100%;">
+
+                        <p>
+                            <table>
+                                <colgroup>
+                                    <col width='30%'/>
+                                    <col width='70%'/>
+                                </colgroup>
+                                <tr>
+                                    <td>Casablanca le:
+                                    </td>
+                                    <td>
+                                        <span t-if="doc.date_order" t-field="doc.date_order"
+                                              t-options="{'widget': 'date'}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>À l'attention de:</td>
+                                    <td>
+                                        <span t-field="doc.partner_id"
+                                              t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </p>
-                        <p>À l'attention de :</p>
-                        <div t-field="doc.partner_id"
-                             t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
-                        <p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'Tax ID'"/>:
-                            <span t-field="doc.partner_id.vat"/>
-                        </p>
+
                     </div>
 
                 </div>
@@ -70,25 +88,45 @@
                 </div>
             </xpath>
 
-            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_taxes']" position="replace">
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_taxes']"
+                   position="replace">
             </xpath>
-            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_description']" position="replace">
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_description']"
+                   position="replace">
                 <th name="th_description" class="text-left">
                     <span>Désignation</span>
                 </th>
             </xpath>
 
-            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_description']" position="after">
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_description']"
+                   position="before">
+                <th name="th_description" class="text-left">
+                    <span>Poste</span>
+                </th>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_description']"
+                   position="after">
                 <th name="th_ref" class="text-left">
                     <span>Réference</span>
                 </th>
             </xpath>
 
 
-            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[2]/tr/t/td[@name='td_taxes']" position="replace">
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[2]/tr/t/td[@name='td_taxes']"
+                   position="replace">
             </xpath>
 
-            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[2]/tr/t/td[@name='td_name']" position="after">
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[2]/tr/t/td[@name='td_name']"
+                   position="before">
+                <td name="sale_order_line_poste">
+                    <span t-field="line.poste"/>
+                </td>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[2]/tr/t/td[@name='td_name']"
+                   position="after">
                 <td name="account_invoice_line_ref">
                     <span t-field="line.product_id.default_code" t-options="{'widget': 'text'}"/>
                 </td>
