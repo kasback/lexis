@@ -62,7 +62,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>À l'attention de:</td>
+                                    <td>À l'attention de : </td>
                                     <td>
                                         <span t-field="doc.partner_id"
                                               t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
@@ -75,10 +75,15 @@
 
                 </div>
             </xpath>
+            <xpath expr="//div[@class='page']/div[1]" position="before">
+                <div style="text-align:center;margin-top:20px;">
+                    <p>Offre de Prix N° : <span t-esc="doc.name"/> (<span t-esc="doc.revision"/>)</p>
+                </div>
+            </xpath>
 
             <xpath expr="//div[@class='page']/div[1]" position="after">
                 <div style="text-align:center;margin-top:20px;">
-                    <p>A rappeler lors de toute commande, modification de dossier, ou demande de prix.</p>
+                    <p>À rappeler lors de toute commande, modification de dossier, ou demande de prix.</p>
                 </div>
 
                 <div style="text-align:left;">

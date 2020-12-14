@@ -12,6 +12,8 @@
                 </field>
                 <field name="tag_ids" position="after">
                     <field name="texte_en_tete" />
+                    <field name="revision" />
+                    <field name="revision_index" invisible="1"/>
                 </field>
                 <xpath expr="//notebook/page[1]/field[1]/tree/field[1]" position="before">
                     <field name="poste" readonly="0"/>
