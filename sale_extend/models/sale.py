@@ -27,8 +27,9 @@ class SaleOrder(models.Model):
     revision_index = fields.Integer('Révision Index', default=0)
 
     def write(self, vals):
-        vals['revision_index'] = self.revision_index + 1
-        vals['revision'] = REVISIONS[vals['revision_index']][1]
+        if vals.get('order_line', None):
+            vals['revision_index'] = self.revision_index + 1
+            vals['revision'] = REVISIONS[vals['revision_index']][1]
         res = super(SaleOrder, self).write(vals)
         return res
 
