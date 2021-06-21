@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="lexises_custom_report_invoice" inherit_id="account.report_invoice_document">
+            <xpath expr="//t[2]" position="replace">
+                <div class="row" style="margin-bottom:20px;">
+                    <div class="col-8">
+                        <table style="border: 2px solid black;width:100%;">
+                            <tr>
+                                <td>
+                                    Date de la facture
+                                </td>
+                                <td>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                                        :
+                                        <span class="m-0" t-field="o.invoice_date"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Numéro de la facture
+                                </td>
+                                <td>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.name" name="name">
+                                        :
+                                        <span class="m-0" t-field="o.name"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <t t-if="o.num_decompte">
+                                <tr>
+                                    <td>
+                                        Num. de Décompte Provisoire
+                                    </td>
+                                    <td>
+                                        <div class="col-auto mw-100 mb-2" name="num_decompte">
+                                            :
+                                            <span class="m-0" t-field="o.num_decompte"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-if="o.invoice_origin">
+                                <tr>
+                                    <td>
+                                        Code Commande
+                                    </td>
+                                    <td>
+                                        <div class="col-auto mw-100 mb-2" name="invoice_origin">
+                                            :
+                                            <span class="m-0" t-field="o.invoice_origin"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-if="o.ref_client">
+                                <tr>
+                                    <td>
+                                        Réference Client
+                                    </td>
+                                    <td>
+                                        <div class="col-auto mw-100 mb-2" name="ref_client">
+                                            :
+                                            <span class="m-0" t-field="o.ref_client"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-if="o.condition_paiement">
+                                <tr>
+                                    <td>
+                                        Condition / Paiement:
+                                    </td>
+                                    <td>
+                                        <div class="col-auto mw-100 mb-2" name="condition_paiement">
+                                            :
+                                            <span class="m-0" t-field="o.condition_paiement"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                    <div class="col-4" style="border: 2px solid black;">
+                        <address t-field="o.partner_id"
+                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                        <div t-if="o.partner_id.vat" class="mt16">
+                            <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label"
+                               id="inv_tax_id_label"/>
+                            <t t-else="">Tax ID</t>:
+                            <span t-field="o.partner_id.vat"/>
+                        </div>
+                        <t t-if="o.partner_id.ice">
+                            ICE :
+                            <t t-esc="o.partner_id.ice"/>
+                        </t>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[1]/div[1]" position="replace">
+                <div class="col-auto mw-100 mb-2" t-if="o.invoice_user_id" name="invoice_user_id">
+                    <strong>Chargé d'affaire:</strong>
+                    <p class="m-0" t-field="o.invoice_user_id"/>
+                </div>
+            </xpath>
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[5]" position="replace">
+            </xpath>
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[1]" position="replace">
+                <th name="th_description" class="text-left">
+                    <span>Désignation</span>
+                </th>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[1]" position="after">
+                <th name="th_ref" class="text-left">
+                    <span>Réference</span>
+                </th>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[1]" position="before">
+                <t t-if="o.invoice_origin">
+                    <th name="th_ref" class="text-left">
+                        <span>ITEM</span>
+                    </th>
+                </t>
+            </xpath>
+
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[3]/tr/t/td[5]" position="replace">
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[3]/tr/t/td[1]" position="after">
+                <td name="account_invoice_line_ref">
+                    <span t-field="line.product_id.default_code" t-options="{'widget': 'text'}"/>
+                </td>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[3]/tr/t/td[1]" position="before">
+                <t t-if="o.invoice_origin">
+                    <td name="account_invoice_line_item">
+                        <span t-field="line.marche_item" t-options="{'widget': 'text'}"/>
+                    </td>
+                </t>
+            </xpath>
+
+
+        </template>
+    </data>
+</odoo>

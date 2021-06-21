@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="lexises_custom_report_sale" inherit_id="sale.report_saleorder_document">
+
+            <xpath expr="//t[@t-set='information_block']" position="replace">
+            </xpath>
+
+            <xpath expr="//t[@t-set='address']" position="replace">
+                <div class="row">
+                    <div class="col-6" style="padding:3px;">
+                        <table style="border: 2px solid black;width:100%;">
+                            <colgroup>
+                                <col width='30%'/>
+                                <col width='70%'/>
+                            </colgroup>
+                            <tr>
+                                <td>
+                                    <div t-if="doc.name" style="font-weight:bold;">Réf à rappeler</div>
+                                </td>
+                                <td>
+                                    :
+                                    <span t-if="doc.name" t-field="doc.name"/>
+                                </td>
+                            </tr>
+                            <t t-if="doc.objet">
+                                <tr>
+                                    <td>
+                                        <div t-if="doc.objet" style="font-weight:bold;">Objet</div>
+                                    </td>
+                                    <td>
+                                        :
+                                        <span t-if="doc.objet" t-field="doc.objet"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td>
+                                    <div t-if="doc.user_id" style="font-weight:bold;">Emetteur</div>
+                                </td>
+                                <td>
+                                    :
+                                    <span t-if="doc.user_id" t-field="doc.user_id"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-6" style="border: 2px solid black;width:100%;">
+
+                        <p>
+                            <table>
+                                <colgroup>
+                                    <col width='30%'/>
+                                    <col width='70%'/>
+                                </colgroup>
+                                <tr>
+                                    <td>Casablanca le:
+                                    </td>
+                                    <td>
+                                        <span t-if="doc.date_order" t-field="doc.date_order"
+                                              t-options="{'widget': 'date'}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>À l'attention de : </td>
+                                    <td>
+                                        <span t-field="doc.partner_id"
+                                              t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p>
+
+                    </div>
+
+                </div>
+            </xpath>
+            <xpath expr="//div[@class='page']/div[1]" position="before">
+                <div style="text-align:center;margin-top:20px;">
+                    <p>Offre de Prix N° : <span t-esc="doc.name"/> (<span t-esc="doc.revision"/>)</p>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[1]" position="after">
+                <div style="text-align:center;margin-top:20px;">
+                    <p>À rappeler lors de toute commande, modification de dossier, ou demande de prix.</p>
+                </div>
+
+                <div style="text-align:left;">
+                    <t t-if="doc.texte_en_tete">
+                        <div t-field="doc.texte_en_tete"/>
+                    </t>
+                </div>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_taxes']"
+                   position="replace">
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_description']"
+                   position="replace">
+                <th name="th_description" class="text-left">
+                    <span>Désignation</span>
+                </th>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_description']"
+                   position="before">
+                <th name="th_description" class="text-left">
+                    <span>Poste</span>
+                </th>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/thead/tr/th[@name='th_description']"
+                   position="after">
+                <th name="th_ref" class="text-left">
+                    <span>Réference</span>
+                </th>
+            </xpath>
+
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[2]/tr/t/td[@name='td_taxes']"
+                   position="replace">
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[2]/tr/t/td[@name='td_name']"
+                   position="before">
+                <td name="sale_order_line_poste">
+                    <span t-field="line.poste"/>
+                </td>
+            </xpath>
+
+            <xpath expr="//table[@class='table table-sm o_main_table']/tbody/t[2]/tr/t/td[@name='td_name']"
+                   position="after">
+                <td name="account_invoice_line_ref">
+                    <span t-field="line.product_id.default_code" t-options="{'widget': 'text'}"/>
+                </td>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>
